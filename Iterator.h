@@ -32,7 +32,7 @@ Iterator<T>::Iterator(const Vector<T>& vec, unsigned pos)
     if(pos <= vec.size())
         ptr = &(vec.vector_m[pos]);
     else
-        throw "poza zakresem";
+        throw std::logic_error("poza zakresem!");
 
 }
 

@@ -24,7 +24,7 @@ int main()
 
 
 
-        shopFile.open("/home/kacper/ClionProjects/zadanie3/Shops.txt");
+        shopFile.open("Shops.txt");
         if (!shopFile.is_open())
         {
             throw "File open error";
@@ -154,10 +154,10 @@ int main()
           std::cout<<a[2];*/
         return 0;
     }
-    catch(const char * s)
-    {
-        std::cout<<"\n"<<s<<std::endl;
-        std::cout<<"Koncze wykonywanie programu\n\n ";
-        return 0;
+    catch (std::bad_alloc & ba) {
+        std::cerr<<ba.what()<<"\n";
+    }
+    catch (std::logic_error & lo) {
+        std::cerr<<lo.what()<<"\n";//exit(EXIT_FAILURE);
     }
 }

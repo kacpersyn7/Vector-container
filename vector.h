@@ -1,36 +1,20 @@
 //
 // Created by kacper on 16.11.16.
 //
-/*pop_back, push_back, resize
-*size, swap
-* */
+
 #ifndef ZADANIE3_VECTOR_H
 #define ZADANIE3_VECTOR_H
-
 #include <iostream>
 #include "Iterator.h"
-/*
-* vector to kontener na dane (dynamiczny)
-* pop_back -> usuwa z koñca
-* push_back -> dodaje na koniec
-* resize -> zmiana rozmiarus
-* swap -> zamiana z innym wektorem
-* insert -> dodaje element w zadanym miejscu
-* size -> ilosc elemetów tablicy
-* iterator -> dzialania na danym elemencie, skok do danego elementu
-*/
 template <class T>
 class Vector
 {
 public:
-    //konstruktory///
-    Vector(const Vector& orig);//kopiowanie
+    Vector(const Vector& orig);
     Vector(unsigned int size, const T & val);
     Vector(unsigned int size);
     Vector() { set_null(); };
     ~Vector() {delete [] vector_m; };
-
-    //metody//
     void push_back(const T & val);
     void pop_back();
     void resize(unsigned count, const T & val);
@@ -38,20 +22,14 @@ public:
     unsigned size() const { return  size_m; };
     unsigned max_size() const  {return capacity_m; };
     void clear();
-    //////////////////////////
-    //przecizenia operatorów//
-    //////////////////////////
     Vector & operator=(const Vector & vector);
     T & operator[](unsigned pos);
     //T  operator[]  (unsigned pos) const;
-    /////////////////////////////////
-    //zaprzyjaźniona klasa iterator//
-    /////////////////////////////////
     friend class Iterator<T>;
     typedef class Iterator<T> iterator;
     iterator begin() const { return Iterator<T>(*this, 0); }
     iterator end() const { return Iterator<T>(*this, size_m); }
-    Iterator<T> erase(const iterator it);//usuwa element na position
+    Iterator<T> erase(const iterator it);
     Iterator<T> erase(const iterator start, const iterator finish); //usuwa elementy od start do finish
     Iterator<T> insert (const iterator position, const T & val);
 private:
@@ -74,8 +52,7 @@ Vector<T>::Vector(const Vector& orig)
     }
     else
     {
-        set_null();
-        throw "Blad ";
+        throw std::logic_error("operacja kopiowania niedozwolona!");
     }
 }
 template<class T>
@@ -97,9 +74,6 @@ Vector<T>::Vector(unsigned int size)
         vector_m[i] = T();
 }
 template<class T>
-//////////
-//metody//
-//////////
 void Vector<T>::push_back(const T & val)
 {
     if (size_m < capacity_m)
@@ -152,9 +126,6 @@ void Vector<T>::clear()
     delete[] vector_m;
     set_null();
 }
-///////////////////////////
-//przeciazenia operatorow//
-///////////////////////////
 template<class T>
 Vector<T> & Vector<T>::operator=(const Vector<T> & vector)
 {
@@ -175,9 +146,7 @@ T & Vector<T>::operator [](unsigned i)
     if(i < size_m)
         return *(vector_m + i);
     else
-    {
-        throw "poza zakresem";
-    }
+        throw std::logic_error("poza zakresem!");
 }
 /*template<class T>
 T  Vector<T>::operator [](unsigned i) const
@@ -186,13 +155,9 @@ T  Vector<T>::operator [](unsigned i) const
         return *(vector_m + i);
     else
     {
-        throw "poza zakresem";
+        throw std::logic_error("poza zakresem!");
     }
 }*/
-
-/////////////
-//iteratory//
-/////////////
 template <class T>
 Iterator<T> Vector<T>::erase(const Vector::iterator it)
 {
@@ -210,7 +175,7 @@ Iterator<T> Vector<T>::erase(const Vector::iterator it)
         return new_temp;
     }
     else
-        throw "poza zakresem";
+        throw std::logic_error("poza zakresem!");
 }
 template <class T>
 Iterator<T> Vector<T>::erase(const iterator start, const iterator finish)
@@ -238,7 +203,7 @@ Iterator<T> Vector<T>::erase(const iterator start, const iterator finish)
         return new_temp;
     }
     else
-        throw "poza zakresem";
+        throw std::logic_error("poza zakresem!");
 }
 template <class T>
 Iterator<T> Vector<T>::insert(const Vector::iterator position, const T &val)
@@ -266,7 +231,7 @@ Iterator<T> Vector<T>::insert(const Vector::iterator position, const T &val)
         return new_temp;
     }
     else
-        throw "poza zakresem";
+        throw std::logic_error("poza zakresem!");
 }
 
 
